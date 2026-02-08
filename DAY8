@@ -1,0 +1,28 @@
+/*Problem: Given integers a and b, compute a^b using recursionwithout using the pow() function.*/
+
+#include <stdio.h>
+
+int power(int base, int exp) {
+    // Base case
+    if (exp == 0)
+        return 1;
+
+    // Recursive call
+    return base * power(base, exp - 1);
+}
+
+int main() {
+    int a, b;
+
+    // Ask user for input
+    printf("Enter the base value (a): ");
+    scanf("%d", &a);
+
+    printf("Enter the exponent value (b): ");
+    scanf("%d", &b);
+
+    // Print result
+    printf("Result = %d", power(a, b));
+
+    return 0;
+}
