@@ -1,0 +1,40 @@
+/*Problem: Given a matrix, calculate the sum of its primary diagonal elements. The primary diagonal consists of elements where row index equals column index.*/
+
+#include <stdio.h>
+
+int main() {
+    int m, n;
+
+    // Ask user for matrix size
+    printf("Enter number of rows (m) and columns (n): ");
+    scanf("%d %d", &m, &n);
+
+    // Check if matrix is square
+    if (m != n) {
+        printf("Primary diagonal exists only for a square matrix.\n");
+        return 0;
+    }
+
+    int matrix[m][n];
+    int i, j, sum = 0;
+
+    printf("Enter the matrix elements row by row:\n");
+
+    // Taking matrix input
+    for (i = 0; i < m; i++) {
+        printf("Enter elements of row %d: ", i + 1);
+        for (j = 0; j < n; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+
+    // Calculating sum of primary diagonal
+    for (i = 0; i < m; i++) {
+        sum = sum + matrix[i][i];
+    }
+
+    // Output result
+    printf("Sum of primary diagonal elements is: %d\n", sum);
+
+    return 0;
+}
