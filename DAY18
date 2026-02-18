@@ -1,0 +1,42 @@
+/*Problem: Given an array of integers, rotate the array to the right by k positions.*/
+
+#include <stdio.h>
+
+int main() {
+    int n, k;
+
+    // Ask user for size of array
+    printf("Enter the number of elements (n): ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    // Ask user to enter array elements
+    printf("Enter %d integers:\n", n);
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Ask user for k value
+    printf("Enter the number of positions to rotate (k): ");
+    scanf("%d", &k);
+
+    // If k is greater than n, reduce it
+    k = k % n;
+
+    // Temporary array to store rotated result
+    int rotated[n];
+
+    // Rotate the array to the right
+    for(int i = 0; i < n; i++) {
+        rotated[(i + k) % n] = arr[i];
+    }
+
+    // Print rotated array
+    printf("Rotated array:\n");
+    for(int i = 0; i < n; i++) {
+        printf("%d ", rotated[i]);
+    }
+
+    return 0;
+}
