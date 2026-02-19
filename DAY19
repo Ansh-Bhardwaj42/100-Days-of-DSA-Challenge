@@ -1,0 +1,48 @@
+/*Problem: Given an array of integers, find two elements whose sum is closest to zero.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n;
+
+    // Ask user for size of array
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    // If less than 2 elements, pair cannot be formed
+    if (n < 2) {
+        printf("At least two elements are required.\n");
+        return 0;
+    }
+
+    int arr[n];
+
+    // Ask user to enter array elements
+    printf("Enter %d space-separated integers:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int min_sum = arr[0] + arr[1];
+    int num1 = arr[0], num2 = arr[1];
+
+    // Check all possible pairs
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            int current_sum = arr[i] + arr[j];
+
+            // Compare absolute values
+            if (abs(current_sum) < abs(min_sum)) {
+                min_sum = current_sum;
+                num1 = arr[i];
+                num2 = arr[j];
+            }
+        }
+    }
+
+    // Print result
+    printf("The pair whose sum is closest to zero is: %d %d\n", num1, num2);
+
+    return 0;
+}
