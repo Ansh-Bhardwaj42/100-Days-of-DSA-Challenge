@@ -1,0 +1,59 @@
+/*Problem: Create and Traverse Singly Linked List*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure of node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+int main() {
+    int n, i, value;
+
+    struct Node *head = NULL, *temp = NULL, *newNode = NULL;
+
+    // Ask user for number of nodes
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    // Check if list is empty
+    if (n <= 0) {
+        printf("List is empty.");
+        return 0;
+    }
+
+    // Creating linked list
+    for (i = 0; i < n; i++) {
+
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &value);
+
+        // Allocate memory
+        newNode = (struct Node*)malloc(sizeof(struct Node));
+        newNode->data = value;
+        newNode->next = NULL;
+
+        // If first node
+        if (head == NULL) {
+            head = newNode;
+            temp = newNode;
+        }
+        else {
+            temp->next = newNode;
+            temp = newNode;
+        }
+    }
+
+    // Traversing the list
+    printf("Linked List elements are: ");
+    temp = head;
+
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    return 0;
+}
