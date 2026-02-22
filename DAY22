@@ -1,0 +1,59 @@
+/*Problem: Count Nodes in Linked List*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+int main() {
+    int n, i, value, count = 0;
+    struct Node *head = NULL, *temp = NULL, *newNode = NULL;
+
+    // Ask user for number of elements
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    // Check if list is empty
+    if(n <= 0) {
+        printf("Linked List is empty.\n");
+        return 0;
+    }
+
+    // Create linked list
+    for(i = 0; i < n; i++) {
+        printf("Enter element %d: ", i + 1);
+        scanf("%d", &value);
+
+        // Allocate memory for new node
+        newNode = (struct Node*)malloc(sizeof(struct Node));
+        newNode->data = value;
+        newNode->next = NULL;
+
+        // If first node
+        if(head == NULL) {
+            head = newNode;
+            temp = newNode;
+        } else {
+            temp->next = newNode;
+            temp = newNode;
+        }
+    }
+
+    // Display the linked list
+    printf("\nLinked List elements are: ");
+    temp = head;
+    while(temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+        count++;   // Counting nodes
+    }
+
+    // Print number of nodes
+    printf("\nTotal number of nodes = %d\n", count);
+
+    return 0;
+}
