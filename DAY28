@@ -1,0 +1,62 @@
+/*Problem: Circular Linked List Creation and Traversal - Implement using linked list with dynamic memory allocation.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for circular linked list node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+int main() {
+    int n, i;
+
+    // Ask user for number of nodes
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    printf("You entered n = %d\n", n);
+
+    if (n <= 0) {
+        printf("List is empty\n");
+        return 0;
+    }
+
+    struct Node *head = NULL, *temp = NULL, *newNode = NULL;
+
+    // Creating circular linked list
+    for (i = 0; i < n; i++) {
+        newNode = (struct Node*)malloc(sizeof(struct Node));
+
+        printf("Enter element %d: ", i + 1);
+        scanf("%d", &newNode->data);
+
+        printf("You entered: %d\n", newNode->data);
+
+        newNode->next = NULL;
+
+        if (head == NULL) {
+            head = newNode;
+            temp = newNode;
+        } else {
+            temp->next = newNode;
+            temp = newNode;
+        }
+    }
+
+    // Making it circular
+    temp->next = head;
+
+    printf("\nCircular Linked List elements are:\n");
+
+    // Traversal
+    struct Node* current = head;
+
+    do {
+        printf("%d ", current->data);
+        current = current->next;
+    } while (current != head);
+
+    return 0;
+}
