@@ -1,0 +1,76 @@
+/*Problem: Implement a stack data structure using an array with the following operations: push, pop, and display.*/
+
+#include <stdio.h>
+#define MAX 100   // Maximum stack size
+
+int stack[MAX];
+int top = -1;     // Stack is initially empty
+
+// Push operation
+void push(int value) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow\n");
+    } else {
+        top++;
+        stack[top] = value;
+        printf("You entered: 1 %d (Push %d)\n", value, value);
+    }
+}
+
+// Pop operation
+void pop() {
+    if (top == -1) {
+        printf("You entered: 2 (Pop)\n");
+        printf("Stack Underflow\n");
+    } else {
+        printf("You entered: 2 (Pop)\n");
+        printf("%d\n", stack[top]);
+        top--;
+    }
+}
+
+// Display operation
+void display() {
+    printf("You entered: 3 (Display)\n");
+    if (top == -1) {
+        printf("Stack is Empty\n");
+    } else {
+        for (int i = top; i >= 0; i--) {
+            printf("%d ", stack[i]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int n, choice, value;
+
+    printf("Enter number of operations: ");
+    scanf("%d", &n);
+
+    printf("You entered: %d operations\n", n);
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                scanf("%d", &value);
+                push(value);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            default:
+                printf("Invalid Operation\n");
+        }
+    }
+
+    return 0;
+}
