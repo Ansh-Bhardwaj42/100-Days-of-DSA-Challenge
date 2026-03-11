@@ -1,0 +1,123 @@
+/*Problem Statement:Implement a Min Heap using an array where the smallest element is always at the root.*/
+
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100
+
+int heap[MAX];
+int size = 0;
+
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapifyUp(int index)
+{
+    while(index > 0)
+    {
+        int parent = (index - 1) / 2;
+
+        if(heap[parent] > heap[index])
+        {
+            swap(&heap[parent], &heap[index]);
+            index = parent;
+        }
+        else
+            break;
+    }
+}
+
+void heapifyDown(int index)
+{
+    int left, right, smallest;
+
+    while(1)
+    {
+        left = 2 * index + 1;
+        right = 2 * index + 2;
+        smallest = index;
+
+        if(left < size && heap[left] < heap[smallest])
+            smallest = left;
+
+        if(right < size && heap[right] < heap[smallest])
+            smallest = right;
+
+        if(smallest != index)
+        {
+            swap(&heap[index], &heap[smallest]);
+            index = smallest;
+        }
+        else
+            break;
+    }
+}
+
+void insert(int x)
+{
+    heap[size] = x;
+    heapifyUp(size);
+    size++;
+}
+
+int extractMin()
+{
+    if(size == 0)
+        return -1;
+
+    int min = heap[0];
+    heap[0] = heap[size - 1];
+    size--;
+
+    heapifyDown(0);
+
+    return min;
+}
+
+int peek()
+{
+    if(size == 0)
+        return -1;
+
+    return heap[0];
+}
+
+int main()
+{
+    int N, x;
+    char operation[20];
+
+    printf("Enter number of operations: ");
+    scanf("%d", &N);
+
+    printf("\nAvailable operations:\n");
+    printf("insert x  -> Insert element x\n");
+    printf("extractMin -> Remove and print smallest element\n");
+    printf("peek -> Print smallest element\n\n");
+
+    for(int i = 0; i < N; i++)
+    {
+        printf("Enter operation %d: ", i + 1);
+        scanf("%s", operation);
+
+        if(strcmp(operation, "insert") == 0)
+        {
+            scanf("%d", &x);
+            insert(x);
+        }
+        else if(strcmp(operation, "extractMin") == 0)
+        {
+            printf("%d\n", extractMin());
+        }
+        else if(strcmp(operation, "peek") == 0)
+        {
+            printf("%d\n", peek());
+        }
+    }
+
+    return 0;
+}
