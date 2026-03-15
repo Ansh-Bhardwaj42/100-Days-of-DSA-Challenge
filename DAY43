@@ -1,0 +1,93 @@
+/*Problem Statement:Construct a Binary Tree from the given level-order traversal.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure of a tree node
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+// Function to create a new node
+struct Node* createNode(int value)
+{
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function for inorder traversal
+void inorder(struct Node* root)
+{
+    if(root == NULL)
+        return;
+
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+int main()
+{
+    int n;
+
+    // User input explanation
+    printf("Enter number of elements in level order traversal: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    printf("Enter %d elements (-1 represents NULL node):\n", n);
+
+    for(int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    // If first element is -1, tree is empty
+    if(arr[0] == -1)
+        return 0;
+
+    // Create root
+    struct Node* root = createNode(arr[0]);
+
+    // Queue to build tree
+    struct Node* queue[n];
+    int front = 0, rear = 0;
+
+    queue[rear++] = root;
+
+    int i = 1;
+
+    while(i < n)
+    {
+        struct Node* current = queue[front++];
+
+        // Left child
+        if(arr[i] != -1)
+        {
+            current->left = createNode(arr[i]);
+            queue[rear++] = current->left;
+        }
+        i++;
+
+        if(i >= n)
+            break;
+
+        // Right child
+        if(arr[i] != -1)
+        {
+            current->right = createNode(arr[i]);
+            queue[rear++] = current->right;
+        }
+        i++;
+    }
+
+    printf("Inorder traversal of the constructed tree:\n");
+    inorder(root);
+
+    return 0;
+}
