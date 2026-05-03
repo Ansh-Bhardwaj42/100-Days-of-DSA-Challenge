@@ -1,0 +1,70 @@
+/*Problem: Given a target distance and cars’ positions & speeds, compute the number of car fleets reaching the destination.
+Sort cars by position in descending order and calculate time to reach target.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for car
+typedef struct {
+    int position;
+    int speed;
+    float time;
+} Car;
+
+// Compare function (sort by position descending)
+int compare(const void *a, const void *b) {
+    return ((Car *)b)->position - ((Car *)a)->position;
+}
+
+int main() {
+    int n, target;
+
+    // Input
+    printf("Enter number of cars: ");
+    scanf("%d", &n);
+
+    printf("Enter target distance: ");
+    scanf("%d", &target);
+
+    Car cars[n];
+
+    printf("Enter positions of cars:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &cars[i].position);
+    }
+
+    printf("Enter speeds of cars:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &cars[i].speed);
+    }
+
+    // Calculate time to reach target
+    for (int i = 0; i < n; i++) {
+        cars[i].time = (float)(target - cars[i].position) / cars[i].speed;
+    }
+
+    // Show user input
+    printf("\nYou entered:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Car %d -> Position: %d, Speed: %d\n", i+1, cars[i].position, cars[i].speed);
+    }
+
+    // Sort by position descending
+    qsort(cars, n, sizeof(Car), compare);
+
+    int fleets = 0;
+    float maxTime = 0;
+
+    // Traverse cars
+    for (int i = 0; i < n; i++) {
+        if (cars[i].time > maxTime) {
+            fleets++;
+            maxTime = cars[i].time;
+        }
+    }
+
+    // Output
+    printf("\nNumber of car fleets: %d", fleets);
+
+    return 0;
+}
