@@ -1,0 +1,78 @@
+/*Problem: Count number of inversions using modified merge sort.Inversion if i < j and a[i] > a[j].*/
+
+#include <stdio.h>
+
+// Merge function that also counts inversions
+int merge(int arr[], int temp[], int left, int mid, int right) {
+    int i = left;      // left subarray
+    int j = mid + 1;   // right subarray
+    int k = left;      // merged array index
+    int inv_count = 0;
+
+    while (i <= mid && j <= right) {
+        if (arr[i] <= arr[j]) {
+            temp[k++] = arr[i++];
+        } else {
+            temp[k++] = arr[j++];
+            inv_count += (mid - i + 1);  // inversion count
+        }
+    }
+
+    // Copy remaining elements
+    while (i <= mid)
+        temp[k++] = arr[i++];
+
+    while (j <= right)
+        temp[k++] = arr[j++];
+
+    // Copy back to original array
+    for (i = left; i <= right; i++)
+        arr[i] = temp[i];
+
+    return inv_count;
+}
+
+// Recursive merge sort that returns inversion count
+int mergeSort(int arr[], int temp[], int left, int right) {
+    int mid, inv_count = 0;
+
+    if (left < right) {
+        mid = (left + right) / 2;
+
+        inv_count += mergeSort(arr, temp, left, mid);
+        inv_count += mergeSort(arr, temp, mid + 1, right);
+
+        inv_count += merge(arr, temp, left, mid, right);
+    }
+
+    return inv_count;
+}
+
+int main() {
+    int n;
+
+    // Input
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    int arr[n], temp[n];
+
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Show user input
+    printf("\nYou entered: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    // Count inversions
+    int inv_count = mergeSort(arr, temp, 0, n - 1);
+
+    // Output
+    printf("\nNumber of inversions: %d", inv_count);
+
+    return 0;
+}
