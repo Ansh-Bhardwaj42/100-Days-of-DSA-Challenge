@@ -1,0 +1,95 @@
+/*Problem: Given meeting intervals, find minimum number of rooms required.Sort by start time and use min-heap on end times.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for meeting interval
+typedef struct {
+    int start;
+    int end;
+} Meeting;
+
+// Compare function for sorting by start time
+int compare(const void *a, const void *b) {
+    return ((Meeting *)a)->start - ((Meeting *)b)->start;
+}
+
+// Min Heap functions
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Heapify up
+void heapifyUp(int heap[], int index) {
+    while (index > 0 && heap[(index - 1) / 2] > heap[index]) {
+        swap(&heap[(index - 1) / 2], &heap[index]);
+        index = (index - 1) / 2;
+    }
+}
+
+// Heapify down
+void heapifyDown(int heap[], int size, int index) {
+    int smallest = index;
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+
+    if (left < size && heap[left] < heap[smallest])
+        smallest = left;
+    if (right < size && heap[right] < heap[smallest])
+        smallest = right;
+
+    if (smallest != index) {
+        swap(&heap[index], &heap[smallest]);
+        heapifyDown(heap, size, smallest);
+    }
+}
+
+int main() {
+    int n;
+
+    // Input
+    printf("Enter number of meetings: ");
+    scanf("%d", &n);
+
+    Meeting arr[n];
+
+    printf("Enter start and end time of each meeting:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &arr[i].start, &arr[i].end);
+    }
+
+    // Show user input
+    printf("\nYou entered:\n");
+    for (int i = 0; i < n; i++) {
+        printf("(%d, %d) ", arr[i].start, arr[i].end);
+    }
+
+    // Step 1: Sort by start time
+    qsort(arr, n, sizeof(Meeting), compare);
+
+    // Min heap for end times
+    int heap[n];
+    int heapSize = 0;
+
+    // Add first meeting
+    heap[heapSize++] = arr[0].end;
+
+    for (int i = 1; i < n; i++) {
+        // If room is free
+        if (arr[i].start >= heap[0]) {
+            heap[0] = arr[i].end;
+            heapifyDown(heap, heapSize, 0);
+        } else {
+            // Need new room
+            heap[heapSize] = arr[i].end;
+            heapifyUp(heap, heapSize);
+            heapSize++;
+        }
+    }
+
+    printf("\nMinimum number of rooms required: %d", heapSize);
+
+    return 0;
+}
